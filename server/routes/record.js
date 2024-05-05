@@ -8,15 +8,15 @@ const router = express.Router();
 
 // API Endpoints
 router.get("/", async (req, res) => {
-    let connection = await db.collection("records");
+    let collection = await db.collection("records");
     let results = await collection.find({}).toArray();
-    res.send(result).status(200)
+    res.send(results).status(200)
 });
 
 router.get("/:id", async (req, res) => {
-    let connection = await db.collection("records");
+    let collection = await db.collection("records");
     let query = { _id: new ObjectId(req.params.id) };
-    let result = await collection.findOne(query);
+    let results = await collection.findOne(query);
 
     if (!result) res.send("Record not found").status(404);
     else res.send(result).status(200)
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
             position: req.body.position,
             level: req.body.level,
         };
-        let connection = await db.collection("records");
+        let collection = await db.collection("records");
         let result = await collection.insertOne(newDocument);
         res.send(result).status(204);
     } catch (err) {
@@ -48,7 +48,7 @@ router.patch("/:id", async (req, res) => {
                 level: req.body.level,
             },
         };
-        let connection = await db.collection("records");
+        let collection = await db.collection("records");
         let result = await collection.updateOne(query, updates);
         res.send(result).status(200);
     } catch (err) {
